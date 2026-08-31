@@ -22,7 +22,7 @@ spec:
         runAsUser: 10001
       containers:
         - name: api
-          image: 039497794217.dkr.ecr.eu-west-3.amazonaws.com/semishop:david-2.0.0
+          image: 039497794217.dkr.ecr.eu-west-3.amazonaws.com/semishop:david-1.0.0
           ports:
             - containerPort: 8085
           envFrom:
