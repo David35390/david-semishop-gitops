@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: semishop
+  labels:
+    app: postgres
+    app.kubernetes.io/part-of: semishop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:18.1
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: inventory_db
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: inventory-secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: inventory-secrets
+                  key: POSTGRES_PASSWORD
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: semishop
+  labels:
+    app: postgres
+spec:
+  selector:
+    app: postgres
+  ports:
+    - name: pg
+      port: 5432
+      targetPort: 5432

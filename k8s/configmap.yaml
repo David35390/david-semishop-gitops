@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: inventory-config
+  namespace: semishop
+  labels:
+    app: inventory
+data:
+  LOG_LEVEL: "INFO"
+  OTEL_LOGS_EXPORTER: "none"
+  OTEL_METRICS_EXPORTER: "none"
+  OTEL_SERVICE_NAME: "inventory"
+  OTEL_TRACES_EXPORTER: "none"

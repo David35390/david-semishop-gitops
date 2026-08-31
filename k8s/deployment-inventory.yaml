@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory
+  namespace: semishop
+  labels:
+    app: inventory
+    app.kubernetes.io/name: inventory
+    app.kubernetes.io/part-of: semishop
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: inventory
+  template:
+    metadata:
+      labels:
+        app: inventory
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+      containers:
+        - name: api
+          image: 039497794217.dkr.ecr.eu-west-3.amazonaws.com/semishop:david-1.0.0
+          ports:
+            - containerPort: 8085
+          envFrom:
+            - configMapRef:
+                name: inventory-config
+            - secretRef:
+                name: inventory-secrets
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8085
+            periodSeconds: 5
+            failureThreshold: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8085
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8085
+            periodSeconds: 20
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
