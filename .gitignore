@@ -1,0 +1,31 @@
+# Etat local genere par les scripts du TD (SHA avant incident, etc.)
+.lab-state/
+
+# Fichiers locaux et temporaires
+*.tmp
+*.temp
+*.log
+*.bak
+*.swp
+*~
+
+# Variables d'environnement et fichiers potentiellement sensibles
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+kubeconfig
+kubeconfig.*
+
+# Editeurs et IDE
+.idea/
+.vscode/
+*.code-workspace
+
+# Systeme d'exploitation
+.DS_Store
+Thumbs.db
+Desktop.ini
