@@ -6,7 +6,7 @@ metadata:
   labels:
     app: inventory
 data:
-  LOG_LEVEL: "INFO"
+  LOG_LEVEL: "DEBUG"
   OTEL_LOGS_EXPORTER: "none"
   OTEL_METRICS_EXPORTER: "none"
   OTEL_SERVICE_NAME: "inventory"
